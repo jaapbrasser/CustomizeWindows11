@@ -43,6 +43,10 @@ function Invoke-ConfigurationData {
             }
         }
         '^Get' {
+            [pscustomobject]@{
+                'Setting' = $CallingCmdlet -replace 'Get-'
+                'Enabled' = (Get-ItemPropertyValue -Path $ConfigRegPath -Name $ConfigData.Enable.ValueName) -eq "$($ConfigData.Enable.ValueData)"
+            }
             
         }
         '^Remove' {
