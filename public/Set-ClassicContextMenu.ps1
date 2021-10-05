@@ -17,12 +17,12 @@ function Set-ClassicContextMenu {
     .EXAMPLE
     Set-ClassicContextMenu -Enable
 
-    Enables the Classic Content Menu
+    Enables the Classic Context Menu
 
     .EXAMPLE
     Set-ClassicContextMenu -Disable -Verbose
 
-    Disables the Classic Content Menu while displaying verbose information
+    Disables the Classic Context Menu while displaying verbose information
 #>
 
     [CmdletBinding(SupportsShouldProcess = $true)]
