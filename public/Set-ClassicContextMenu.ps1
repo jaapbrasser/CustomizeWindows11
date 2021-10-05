@@ -1,7 +1,7 @@
 function Set-ClassicContextMenu {
 <#  
     .SYNOPSIS
-    Enables or disabled the Classic Context Menu
+    Enables or disables the Classic Context Menu
 
     .DESCRIPTION
     The Set-ClassicContextMenu cmdlet is used to switch enable or disable the Classic Context Menu
@@ -15,7 +15,14 @@ function Set-ClassicContextMenu {
     TBD
 
     .EXAMPLE
+    Set-ClassicContextMenu -Enable
 
+    Enables the Classic Content Menu
+
+    .EXAMPLE
+    Set-ClassicContextMenu -Disable -Verbose
+
+    Disables the Classic Content Menu while displaying verbose information
 #>
 
     [CmdletBinding(SupportsShouldProcess = $true)]
