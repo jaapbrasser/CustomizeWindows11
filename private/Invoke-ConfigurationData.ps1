@@ -20,7 +20,7 @@ function Invoke-ConfigurationData {
                 New-RegPath -Path $ConfigRegPath
                 try {
                     Write-Verbose -Message "$($MyInvocation.MyCommand.Name):: Setting value '$($ConfigData.Enable.ValueName)' to '$($ConfigData.Enable.ValueData)'"
-                    New-ItemProperty -Path $ConfigRegPath -Name $ConfigData.Enable.ValueName -Value $ConfigData.Enable.ValueData -PropertyType $ConfigData.Enable.ValueType
+                    New-ItemProperty -Path $ConfigRegPath -Name $ConfigData.Enable.ValueName -Value $ConfigData.Enable.ValueData -PropertyType $ConfigData.Enable.ValueType -Force
                 } catch {
                     $_
                 }
@@ -39,6 +39,14 @@ function Invoke-ConfigurationData {
                             $_
                         }
                     }
+                }  elseif ($Parameter.ContainsKey('Disable') -and $Parameter.Disable) {
+                    New-RegPath -Path $ConfigRegPath
+                    try {
+                        Write-Verbose -Message "$($MyInvocation.MyCommand.Name):: Setting value '$($ConfigData.Disable.ValueName)' to '$($ConfigData.Disable.ValueData)'"
+                        New-ItemProperty -Path $ConfigRegPath -Name $ConfigData.Disable.ValueName -Value $ConfigData.Disable.ValueData -PropertyType $ConfigData.Disable.ValueType -Force
+                    } catch {
+                        $_
+                    }
                 }
             }
         }
@@ -50,7 +58,6 @@ function Invoke-ConfigurationData {
             
         }
         '^Remove' {
-            
         }
     }
 }
