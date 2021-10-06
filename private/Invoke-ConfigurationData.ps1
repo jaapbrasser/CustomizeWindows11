@@ -1,9 +1,9 @@
 function Invoke-ConfigurationData {
     param(
-        $Parameter
+        $Parameter,
+        [string] $CallingCmdlet
     )
 
-    $CallingCmdlet = (Get-PSCallStack)[1].Command
     Write-Verbose -Message "$($MyInvocation.MyCommand.Name):: Called by '$CallingCmdlet'"
 
     $ModulePath = (Get-Item function:\$CallingCmdlet).Module.ModuleBase
