@@ -8,8 +8,9 @@ function Invoke-ConfigurationData {
 
     $ModulePath = (Get-Item function:\$CallingCmdlet).Module.ModuleBase
 
-    $ConfigData = Get-Content -Raw -Path "$ModulePath/private/data/$($CallingCmdlet.split('-')[1]).json" | ConvertFrom-Json
-    Write-Verbose -Message "$($MyInvocation.MyCommand.Name):: Configuration data retrieved from json: $($ConfigData|ConvertTo-Json)"
+    $ConfigData = Get-Content -Raw -Path "$ModulePath/private/data/$($CallingCmdlet.split('-')[1]).json" | ConvertFrom-Json -AsHashtable
+    $PropertyName = $ConfigData.keys | Where-Object Name -ne 'RegKey' | Select-Object -First 1
+    Write-Verbose -Message "$($MyInvocation.MyCommand.Name):: Configuration data retrieved from json '$($CallingCmdlet.split('-')[1]).json': $($ConfigData|ConvertTo-Json)"
 
     $PreFixRegPath = "Registry::HKEY_CURRENT_USER"
     $ConfigRegPath = "$PreFixRegPath\$($ConfigData.RegKey)"
@@ -48,14 +49,32 @@ function Invoke-ConfigurationData {
                         $_
                     }
                 }
+            } elseif ($ConfigData.Keys -contains $PropertyName -and $Parameter.ContainsKey($PropertyName)) {
+                $CurrentValue = $ConfigData.$PropertyName.$($Parameter.$PropertyName)
+                if ($CurrentValue) {
+                    Write-Verbose -Message "$($MyInvocation.MyCommand.Name):: Setting value '$($CurrentValue.ValueName)' to '$($CurrentValue.ValueData)'"
+                    New-ItemProperty -Path $ConfigRegPath -Name $CurrentValue.ValueName -Value $CurrentValue.ValueData -PropertyType $CurrentValue.ValueType -Force
+                } else {
+                    Write-Warning "No matching value found for '$PropertyName' with value '$($Parameter.$PropertyName)'"
+                }
             }
         }
         '^Get' {
+            $PropertyName = $ConfigData.keys | Where-Object Name -ne 'RegKey' | Select-Object -First 1
             [pscustomobject]@{
                 'Setting' = $CallingCmdlet -replace 'Get-'
-                'Enabled' = (Get-ItemPropertyValue -Path $ConfigRegPath -Name $ConfigData.Enable.ValueName) -eq "$($ConfigData.Enable.ValueData)"
+                "$PropertyName" = 
+                    if ($PropertyName -in @('Enable','Disable')) {
+                        (Get-ItemPropertyValue -Path $ConfigRegPath -Name $ConfigData.Enable.ValueName -ErrorAction SilentlyContinue) -eq "$($ConfigData.Enable.ValueData)"
+                    } else {
+                        $RegistryValue = try {
+                            Get-ItemPropertyValue -Path $ConfigRegPath -Name $ConfigData.$PropertyName.Values.ValueName[0] -ErrorAction Stop
+                        } catch {}
+                        $ConfigData.$PropertyName.Keys | Where-Object {
+                            $ConfigData.$PropertyName.$_.ValueData -eq $RegistryValue
+                        }
+                    }
             }
-            
         }
         '^Remove' {
         }
