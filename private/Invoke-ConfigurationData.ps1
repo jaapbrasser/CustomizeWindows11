@@ -10,7 +10,7 @@ function Invoke-ConfigurationData {
 
     $ConfigData = Get-Content -Raw -Path "$ModulePath/private/data/$($CallingCmdlet.split('-')[1]).json" | ConvertFrom-Json -AsHashtable
     $PropertyName = $ConfigData.keys | Where-Object Name -ne 'RegKey' | Select-Object -First 1
-    Write-Verbose -Message "$($MyInvocation.MyCommand.Name):: Configuration data retrieved from json '$($CallingCmdlet.split('-')[1]).json': $($ConfigData|ConvertTo-Json)"
+    Write-Verbose -Message "$($MyInvocation.MyCommand.Name):: Configuration data retrieved from json '$($CallingCmdlet.split('-')[1]).json': $($ConfigData|ConvertTo-Json -WarningAction SilentlyContinue)"
 
     $PreFixRegPath = "Registry::HKEY_CURRENT_USER"
     $ConfigRegPath = "$PreFixRegPath\$($ConfigData.RegKey)"
@@ -60,18 +60,24 @@ function Invoke-ConfigurationData {
             }
         }
         '^Get' {
-            $PropertyName = $ConfigData.keys | Where-Object Name -ne 'RegKey' | Select-Object -First 1
+            $PropertyName = $ConfigData.keys | Where-Object {$_ -ne 'RegKey'} | Select-Object -First 1
             [pscustomobject]@{
                 'Setting' = $CallingCmdlet -replace 'Get-'
-                "$PropertyName" = 
+                "$(if ($PropertyName -in @('Enable','Disable')) {'Enabled'} else {$PropertyName})" = 
                     if ($PropertyName -in @('Enable','Disable')) {
                         (Get-ItemPropertyValue -Path $ConfigRegPath -Name $ConfigData.Enable.ValueName -ErrorAction SilentlyContinue) -eq "$($ConfigData.Enable.ValueData)"
                     } else {
                         $RegistryValue = try {
                             Get-ItemPropertyValue -Path $ConfigRegPath -Name $ConfigData.$PropertyName.Values.ValueName[0] -ErrorAction Stop
                         } catch {}
+                        Write-Verbose -Message "$($MyInvocation.MyCommand.Name):: Retrieved '$RegistryValue' from '$ConfigRegPath'"
                         $ConfigData.$PropertyName.Keys | Where-Object {
-                            $ConfigData.$PropertyName.$_.ValueData -eq $RegistryValue
+                            if ($ConfigData.$PropertyName.$_.ValueType -eq 'Binary') {
+                                # String comparison workaround for binary strings
+                                (-join $ConfigData.$PropertyName.$_.ValueData) -eq (-join $RegistryValue)
+                            } else {
+                                $ConfigData.$PropertyName.$_.ValueData -eq $RegistryValue
+                            }
                         }
                     }
             }
