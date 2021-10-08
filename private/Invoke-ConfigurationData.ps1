@@ -8,7 +8,13 @@ function Invoke-ConfigurationData {
 
     $ModulePath = (Get-Item function:\$CallingCmdlet).Module.ModuleBase
 
-    $ConfigData = Get-Content -Raw -Path "$ModulePath/private/data/$($CallingCmdlet.split('-')[1]).json" | ConvertFrom-Json -AsHashtable
+    if ($PSVersionTable.PSVersion.Major -ge 6) {
+        $ConfigData = Get-Content -Raw -Path "$ModulePath/private/data/$($CallingCmdlet.split('-')[1]).json" | ConvertFrom-Json -AsHashtable
+    } else {
+        $ConfigObject = Get-Content -Raw -Path "$ModulePath/private/data/$($CallingCmdlet.split('-')[1]).json" | ConvertFrom-Json
+        $ConfigData = ConvertTo-Hash -Object $ConfigObject
+    }
+        
     $PropertyName = $ConfigData.keys | Where-Object Name -ne 'RegKey' | Select-Object -First 1
     Write-Verbose -Message "$($MyInvocation.MyCommand.Name):: Configuration data retrieved from json '$($CallingCmdlet.split('-')[1]).json': $($ConfigData|ConvertTo-Json -WarningAction SilentlyContinue)"
 
