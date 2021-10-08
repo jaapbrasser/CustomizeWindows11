@@ -9,11 +9,13 @@ All notable changes to this project will be documented in this file, including d
 ### Added
 
 * Added Get/`Set-TaskbarAdditionalCalendar` to set or remove additional calendars
+* Added private function `ConvertTo-Hash` to resolve [Issue 9](https://github.com/jaapbrasser/CustomizeWindows11/issues/9)
 
 ### Fixed
 
 * Property display bug when using some Get-* cmdlets
 * Updated documentation for `Set-TaskbarSize`
+* Fixed PowerShell 5 bug in `Invoke-ConfigurationData`, resolves [Issue 9](https://github.com/jaapbrasser/CustomizeWindows11/issues/9)
 
 ## [1.1.0](https://github.com/jaapbrasser/CustomizeWindows11/releases/tag/1.1.0)
 
