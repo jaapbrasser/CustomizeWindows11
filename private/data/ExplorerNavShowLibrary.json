@@ -1,0 +1,15 @@
+{
+  "RegKey": "Software\\Classes\\CLSID\\{031E4825-7B94-4dc3-B131-E946B44C8DD5}",
+  "Enable": {
+    "ValueData": 1,
+    "ValueName": "System.IsPinnedToNameSpaceTree",
+    "ValueType": "DWORD",
+    "Operation": "New"
+  },
+  "Disable": {
+    "ValueData": 0,
+    "ValueName": "System.IsPinnedToNameSpaceTree",
+    "ValueType": "DWORD",
+    "Operation": "New"
+  }
+}

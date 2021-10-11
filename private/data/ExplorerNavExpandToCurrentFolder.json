@@ -1,0 +1,15 @@
+{
+  "RegKey": "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+  "Enable": {
+    "ValueData": 1,
+    "ValueName": "NavPaneExpandToCurrentFolder",
+    "ValueType": "DWORD",
+    "Operation": "New"
+  },
+  "Disable": {
+    "ValueData": 0,
+    "ValueName": "NavPaneExpandToCurrentFolder",
+    "ValueType": "DWORD",
+    "Operation": "New"
+  }
+}
