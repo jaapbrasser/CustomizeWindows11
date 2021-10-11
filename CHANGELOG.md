@@ -2,7 +2,21 @@
 
 All notable changes to this project will be documented in this file, including direct links to the releases
 
-## [1.1.1]()
+## [1.1.2](https://github.com/jaapbrasser/CustomizeWindows11/releases/tag/1.1.2)
+
+### Changed
+
+* Changed encoding from Unicode to UTF8
+
+### Added
+
+* Added new functions, 'Get-ExplorerNavExpandToCurrentFolder', 'Get-ExplorerNavShowAllFolder', 'Get-ExplorerNavShowAvailabilityStatus', 'Get-ExplorerNavShowLibrary', 'Set-ExplorerNavExpandToCurrentFolder', 'Set-ExplorerNavShowAllFolder', 'Set-ExplorerNavShowAvailabilityStatus', 'Set-ExplorerNavShowLibrary' to manage various NavBar settings, resolves resolve [Issue 10](https://github.com/jaapbrasser/CustomizeWindows11/issues/10)
+
+### Removed
+
+* Removed duplicate functions `Get-ExplorerHideFileExt` & `Set-ExplorerHideFileExt`, the `Get/Set-ExplorerHideFileExtion` functions can be used instead
+
+## [1.1.1](https://github.com/jaapbrasser/CustomizeWindows11/releases/tag/1.1.1)
 
 ### Changed
 
@@ -10,6 +24,7 @@ All notable changes to this project will be documented in this file, including d
 
 * Added Get/`Set-TaskbarAdditionalCalendar` to set or remove additional calendars
 * Added private function `ConvertTo-Hash` to resolve [Issue 9](https://github.com/jaapbrasser/CustomizeWindows11/issues/9)
+* Added new functions
 
 ### Fixed
 
