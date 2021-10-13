@@ -1,10 +1,10 @@
 function Set-TaskbarAdditionalCalendar {
 <#  
     .SYNOPSIS
-    Enables or disables the Taskbar Additional Calendar setting
+    Sets the Taskbar Additional Calendar setting
 
     .DESCRIPTION
-    The Set-TaskbarAdditionalCalendar cmdlet is used to enable or disable the Taskbar Additional Calendar setting
+    The Set-TaskbarAdditionalCalendar cmdlet is used set the Taskbar Additional Calendar setting
 
     .NOTES
     Written by Jaap Brasser for community usage
@@ -15,23 +15,27 @@ function Set-TaskbarAdditionalCalendar {
     TBD
 
     .EXAMPLE
-    Set-TaskbarAdditionalCalendar -Enable
+    Set-TaskbarAdditionalCalendar -CalendarOption None
 
-    Enables the Taskbar Additional Calendar setting
+    Set the Taskbar Additional Calendar to the default of none
+    
+    .EXAMPLE
+    Set-TaskbarAdditionalCalendar -CalendarOption SimplifiedLunar
+
+    Set the Taskbar Additional Calendar to display the additional SimplifiedLunar
 
     .EXAMPLE
-    Set-TaskbarAdditionalCalendar -Disable -Verbose
+    Set-TaskbarAdditionalCalendar -CalendarOption TraditionalLunar -Verbose
 
-    Disables the Taskbar Additional Calendar setting, while displaying verbose information
+    Set the Taskbar Additional Calendar to display the additional TraditionalLunar while displaying verbose information
 #>
 
     [CmdletBinding(SupportsShouldProcess = $true)]
     Param(
-        [Parameter(Mandatory = $true, ParameterSetName='Enable', HelpMessage = 'Enable Taskbar Additional Calendar')]
-        [switch] $Enable,
-        [Parameter(Mandatory = $true, ParameterSetName='Disable', HelpMessage = 'Disable Taskbar Additional Calendar')]
-        [switch] $Disable
+        [Parameter(Mandatory = $true, HelpMessage = 'Set Taskbar Size')]
+        [ValidateSet('None', 'SimplifiedLunar', 'TraditionalLunar')]
+        [string] $CalendarOption
     )
 
     Invoke-ConfigurationData -CallingCmdlet $MyInvocation.MyCommand.Name -Parameter $PSBoundParameters
-}
+} 
