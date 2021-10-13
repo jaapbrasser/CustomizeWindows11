@@ -8,7 +8,11 @@ All notable changes to this project will be documented in this file, including d
 
 ### Added
 
+* Added cmdlets `Get-TaskbarShowChatIcon` & `Set-TaskbarShowChatIcon` to manage the chat icon on the taskbar
+
 ### Fixed
+
+* Bug in `ConvertTo-Hash` private function that caused it to fail on null values, resolves [Issue 12](https://github.com/jaapbrasser/CustomizeWindows11/issues/12)
 
 ## [1.1.2](https://github.com/jaapbrasser/CustomizeWindows11/releases/tag/1.1.2)
 
