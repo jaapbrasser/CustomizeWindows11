@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file, including direct links to the releases
 
+## [1.1.4](https://github.com/jaapbrasser/CustomizeWindows11/releases/tag/1.1.4)
+
+### Changed
+
+### Added
+
+### Fixed
+
 ## [1.1.3](https://github.com/jaapbrasser/CustomizeWindows11/releases/tag/1.1.3)
 
 ### Changed
