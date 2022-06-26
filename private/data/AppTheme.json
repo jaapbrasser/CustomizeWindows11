@@ -1,0 +1,17 @@
+{
+  "RegKey": "Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize",
+  "Type": {
+    "Dark": {
+      "ValueData": 0,
+      "ValueName": "AppsUseLightTheme",
+      "ValueType": "DWORD",
+      "Operation": "New"
+    },
+    "Light": {
+      "ValueData": 1,
+      "ValueName": "AppsUseLightTheme",
+      "ValueType": "DWORD",
+      "Operation": "New"
+    }
+  }
+}
